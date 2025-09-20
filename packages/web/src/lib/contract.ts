@@ -1,44 +1,31 @@
-import { getAccount } from "@wagmi/core"
 import { Address, createPublicClient, http, parseAbi } from "viem"
 import { monadTestnet } from "viem/chains"
-
-export const SepoliaContract = {
-  youngGuRuPikadProxy: "0x" as Address,
-}
 
 export const publicClient = createPublicClient({
   chain: monadTestnet,
   transport: http(),
 })
 
-
-
-export const YOUNG_GU_RU_PIKAD_PROXY_ABI = parseAbi([
-  // Events
-  "event AdminChanged(address indexed previousAdmin, address indexed newAdmin)",
-  "event DekGenProof(bytes32 indexed _key, address indexed _verifier, address indexed _prover, bool _result)",
-  "event MiaGenProof(bytes32 indexed _key, address indexed _verifier, address indexed _prover, bool _result)",
-  "event OwnerShipTransferred(address indexed previousOwner, address indexed newOwner)",
-  "event Paused(address account)",
-  "event Unpaused(address account)",
-  "event VerifierConfigured(bytes32 indexed key, address indexed verifier, address indexed authority)",
-
-  // Functions
-  "function configVerifier(bytes32 _key, address _verifier)",
-  "function getAdmin() view returns (address)",
-  "function getOwner() view returns (address)",
-  "function getPause() view returns (bool)",
-  "function initialize(address _owner, address _admin)",
-  "function initialized() view returns (bool)",
-  "function provers(bytes32, address) view returns (bool)",
-  "function setAdmin(address newAdmin)",
+const SonadAbiStrings = [
+  // Write Functions
+  "function approve(address to, uint256 tokenId)",
+  "function deactivatePost(uint256 _postId)",
+  "function renounceOwnership()",
+  "function safeTransferFrom(address from, address to, uint256 tokenId)",
+  "function safeTransferFrom(address from, address to, uint256 tokenId, bytes data)",
+  "function setApprovalForAll(address operator, bool approved)",
+  "function setMonadToken(address _newMonadToken)",
+  "function tipCreator(uint256 _postId) payable",
+  "function transferFrom(address from, address to, uint256 tokenId)",
   "function transferOwnership(address newOwner)",
-  "function verifierConfiguration(bytes32 _key, address _verifier)",
-  "function verifiers(bytes32) view returns (address)",
-  "function verifyDek(bytes32 _key, bytes _proof, bytes32[] _publicInputs) returns (bool)",
-  "function verifyMia(bytes32 _key, bytes _proof, bytes32[] _publicInputs) returns (bool)",
-])
+  "function updateMinimumMonadHolding(uint256 _newMinimum)",
+  "function verifyAndRegisterPost(string _tweetId, address _creator, string _content) returns (uint256)",
+  "function vote(uint256 _postId, bool _isLit)",
+  "function withdrawProtocolFees()",
+]
+
+export const SonadAbi = parseAbi(SonadAbiStrings)
 
 export const contracts = {
-  youngGuRuPikadProxy: ,
+  SonadContract: "0x96079982fD20Ed66CDEe1A8009058a50727cEBB3" as Address,
 }

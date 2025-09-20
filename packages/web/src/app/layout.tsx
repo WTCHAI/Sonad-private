@@ -1,21 +1,20 @@
-import "leaflet/dist/leaflet.css"
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import "@/styles/globals.css"
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
+import "leaflet/dist/leaflet.css"
 
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { headers } from "next/headers"
 import { GoogleAnalytics } from "@next/third-parties/google"
 import { Analytics } from "@vercel/analytics/next"
-import { cookieToInitialState } from "wagmi"
 
 import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
-import { config } from "@/config/wallet"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
 import { Providers } from "@/components/providers"
 import { ThemeProvider } from "@/components/theme-provider"
+
+import Navbar from "../components/navbar"
 
 const sans = Geist({ subsets: ["latin"], variable: "--font-sans" })
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
@@ -74,11 +73,7 @@ export const viewport: Viewport = {
   ],
 }
 
-export default async function RootLayout({ children }: RootLayoutProps) {
-  const initialState = cookieToInitialState(
-    config,
-    (await headers()).get("cookie")
-  )
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -94,7 +89,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <Providers initialState={initialState}>{children}</Providers>
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
           <Toaster />
         </ThemeProvider>
       </body>
