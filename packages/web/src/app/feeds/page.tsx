@@ -362,7 +362,7 @@ const PostCard = ({
               <img
                 src={post.media[0].url}
                 alt="Post media"
-                className="h-auto max-h-96 w-full rounded-lg object-cover"
+                className="h-[60vh] max-h-96 w-full rounded-lg object-cover"
               />
             </div>
           )}
