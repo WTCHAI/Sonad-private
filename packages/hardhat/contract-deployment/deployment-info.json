@@ -1,0 +1,23 @@
+{
+  "network": "Monad Testnet",
+  "chainId": 10143,
+  "deployerAddress": "0x444449108C00Ef513199249c4dFAf9A3Bf644444",
+  "deploymentDate": "2025-09-20",
+  "contracts": {
+    "MockMonadToken": {
+      "address": "0x95fCB10fcD03208d3aa468db53433cb23167002D",
+      "txHash": "0x663f578d1b282e56688d94810203c3f590d5a2a743c5700e5fd746900e793028",
+      "gasUsed": 687761,
+      "description": "Mock ERC20 token for testing (represents MONAD token)"
+    },
+    "Sonad": {
+      "address": "0x96079982fD20Ed66CDEe1A8009058a50727cEBB3",
+      "txHash": "0xc5ba750f8b39f8c520e0da325e75bfad7cfe525ddca6c278013d5ebbd1f61558",
+      "gasUsed": 2719154,
+      "description": "Main SocialFi contract for Twitter/X post verification and voting"
+    }
+  },
+  "monadTokenAddress": "0x95fCB10fcD03208d3aa468db53433cb23167002D",
+  "rpcUrl": "https://testnet-rpc.monad.xyz/",
+  "explorer": "https://testnet.monadexplorer.com"
+}
