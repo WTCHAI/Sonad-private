@@ -8,6 +8,7 @@ require('dotenv').config();
 const { testConnection } = require('./config/database');
 const userRoutes = require('./routes/users');
 const transactionRoutes = require('./routes/transactions');
+const tweetRoutes = require('./routes/tweetRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5143;
@@ -43,9 +44,12 @@ app.get('/health', (req, res) => {
   });
 });
 
+// API Routes
 app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/tweets', tweetRoutes);
 
+// 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
     error: 'Route not found',
@@ -54,6 +58,7 @@ app.use('*', (req, res) => {
   });
 });
 
+// Global error handler
 app.use((error, req, res, next) => {
   console.error('Error:', error);
   res.status(500).json({
@@ -70,6 +75,9 @@ const startServer = async () => {
       console.log(`🚀 Sonad API Server running on port ${PORT}`);
       console.log(`📍 Health check: http://localhost:${PORT}/health`);
       console.log(`📊 API endpoints: http://localhost:${PORT}/api`);
+      console.log(`🐦 Tweet endpoints:`);
+      console.log(`   GET  ${PORT}/api/tweets - Get all tweets`);
+      console.log(`   POST ${PORT}/api/tweets/fetch - Fetch tweets by IDs`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
