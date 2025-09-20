@@ -1,5 +1,5 @@
 import { QueryClient, useQuery } from "@tanstack/react-query"
-import { useAccount } from "wagmi"
+import { useWallets } from "@privy-io/react-auth"
 
 export const refreshTokenBalances = (queryClient: QueryClient) => {
   queryClient.invalidateQueries({
@@ -8,15 +8,17 @@ export const refreshTokenBalances = (queryClient: QueryClient) => {
 }
 
 export const useTokenBalances = () => {
-  const { address } = useAccount()
+  const { wallets } = useWallets()
+  const address = wallets.find(wallet => wallet.walletClientType === 'privy')?.address
+
   return useQuery({
     queryKey: ["token-balances", address],
     queryFn: async () => {
       if (!address) return { usdc: 0, weth: 0 }
 
       return {
-        usdc: Number(results[0].result) / 1e6,
-        weth: Number(results[1].result) / 1e6,
+        usdc: 0,
+        weth: 0,
       }
     },
     refetchInterval: 1000 * 30, // 30 seconds

@@ -1,12 +1,8 @@
 "use client"
 
-import "@rainbow-me/rainbowkit/styles.css"
-
-import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { State, WagmiProvider } from "wagmi"
 
-import { config } from "@/config/wallet"
+import PrivyProvider from "./privy-provider"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,26 +14,14 @@ const queryClient = new QueryClient({
 
 export function Providers({
   children,
-  initialState,
 }: {
   children: React.ReactNode
-  initialState?: State
 }) {
   return (
-    <WagmiProvider config={config} initialState={initialState} reconnectOnMount={true}>
+    <PrivyProvider>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider 
-          theme={darkTheme({
-            accentColor: "rgba(8, 71, 247, 0.85)",
-            accentColorForeground: "white",
-            borderRadius: "large",
-            fontStack: "system",
-            overlayBlur: "large",
-          })}
-        >
-          {children}
-        </RainbowKitProvider>
+        {children}
       </QueryClientProvider>
-    </WagmiProvider>
+    </PrivyProvider>
   )
 }
