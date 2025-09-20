@@ -1,8 +1,8 @@
 // Individual post card component with voting and tipping
-import React, { useState } from 'react';
-import { SonadPost } from '../types/twitter';
-import TipModal from './TipModal';
-import VoteButtons from './VoteButtons';
+import React, { useState } from "react";
+import { SonadPost } from "../types/twitter";
+import TipModal from "./TipModal";
+import VoteButtons from "./VoteButtons";
 
 interface PostCardProps {
   post: SonadPost;
@@ -16,13 +16,32 @@ const PostCard: React.FC<PostCardProps> = ({ post, onVote, onTip }) => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
     return num.toString();
+  };
+
+  // Extract Twitter short links and clean text
+  const extractTwitterLink = (text: string) => {
+    const twitterLinkRegex = /https:\/\/t\.co\/\w+/g;
+    const matches = text.match(twitterLinkRegex);
+    const cleanText = text.replace(twitterLinkRegex, "").trim();
+    return {
+      link: matches ? matches[0] : null,
+      cleanText,
+    };
+  };
+
+  const { link: twitterLink, cleanText } = extractTwitterLink(post.text);
+
+  const handlePostClick = () => {
+    if (twitterLink) {
+      window.open(twitterLink, "_blank", "noopener,noreferrer");
+    }
   };
 
   const handleVote = async (isLit: boolean) => {
@@ -47,46 +66,43 @@ const PostCard: React.FC<PostCardProps> = ({ post, onVote, onTip }) => {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <img
-              src={post.profile_image_url}
-              alt={post.name}
-              className="w-12 h-12 rounded-full"
-            />
+            <img src={post.profile_image_url} alt={post.name} className="w-12 h-12 rounded-full" />
             <div>
               <div className="flex items-center space-x-2">
                 <h3 className="font-semibold text-gray-900">{post.name}</h3>
                 {post.verified && (
-                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                    ✓ Verified
-                  </span>
+                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">✓ Verified</span>
                 )}
               </div>
               <p className="text-gray-600 text-sm">@{post.username}</p>
             </div>
           </div>
-          <div className="text-sm text-gray-500">
-            {formatDate(post.created_at)}
-          </div>
+          <div className="text-sm text-gray-500">{formatDate(post.created_at)}</div>
         </div>
 
         {/* Content */}
         <div className="mb-4">
-          <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
-            {post.text}
-          </p>
+          <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{cleanText}</p>
+          {twitterLink && (
+            <div className="mt-2">
+              <button
+                onClick={handlePostClick}
+                className="text-sm text-purple-600 hover:text-purple-800 flex items-center space-x-1 hover:underline transition-colors"
+              >
+                <span>🔗</span>
+                <span>Click to view original post</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Media */}
         {post.media && post.media.length > 0 && (
           <div className="mb-4">
-            {post.media.map((media) => (
+            {post.media.map(media => (
               <div key={media.media_key} className="rounded-lg overflow-hidden">
-                {media.type === 'photo' && (
-                  <img
-                    src={media.url}
-                    alt="Post media"
-                    className="w-full h-auto max-h-96 object-cover"
-                  />
+                {media.type === "photo" && (
+                  <img src={media.url} alt="Post media" className="w-full h-auto max-h-96 object-cover" />
                 )}
               </div>
             ))}
@@ -117,7 +133,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onVote, onTip }) => {
                 </span>
                 <span className="flex items-center space-x-1">
                   <span className="text-blue-500">💰</span>
-                  <span>{post.totalTips || '0'} ETH</span>
+                  <span>{post.totalTips || "0"} ETH</span>
                 </span>
               </div>
             </div>
@@ -140,8 +156,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onVote, onTip }) => {
               disabled={!post.verified}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 post.verified
-                  ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
               }`}
             >
               💰 Tip Creator
@@ -160,13 +176,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onVote, onTip }) => {
       </div>
 
       {/* Tip Modal */}
-      {showTipModal && (
-        <TipModal
-          post={post}
-          onClose={() => setShowTipModal(false)}
-          onTip={handleTipSubmit}
-        />
-      )}
+      {showTipModal && <TipModal post={post} onClose={() => setShowTipModal(false)} onTip={handleTipSubmit} />}
     </>
   );
 };
