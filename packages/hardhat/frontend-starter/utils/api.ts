@@ -1,12 +1,12 @@
 // API utilities for fetching Twitter data and backend integration
-import { TwitterPost } from '../types/twitter';
+import { TwitterPost } from "../types/twitter";
 
 // Mock API functions - replace with your actual backend calls
 export class SonadAPI {
-  private static BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  private static BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
   // Fetch Twitter posts with $MONAD or $NAD hashtags
-  static async fetchTwitterPosts(page = 1, limit = 20): Promise<TwitterPost[]> {
+  static async fetchTwitterPosts(): Promise<TwitterPost[]> {
     try {
       // TODO: Replace with your actual API endpoint
       // const response = await fetch(`${this.BASE_URL}/api/posts?page=${page}&limit=${limit}`);
@@ -38,14 +38,14 @@ export class SonadAPI {
               url: "https://pbs.twimg.com/media/G02t6DIawAAdZZm.jpg",
               preview_image_url: null,
               width: 2684,
-              height: 3205
-            }
-          ]
-        }
+              height: 3205,
+            },
+          ],
+        },
       ];
     } catch (error) {
-      console.error('Failed to fetch Twitter posts:', error);
-      throw new Error('Failed to fetch posts');
+      console.error("Failed to fetch Twitter posts:", error);
+      throw new Error("Failed to fetch posts");
     }
   }
 
@@ -63,13 +63,13 @@ export class SonadAPI {
       console.log(`Submitting tweet ${tweetId} for verification by ${creatorAddress}`);
       return true; // Mock success
     } catch (error) {
-      console.error('Failed to submit for verification:', error);
+      console.error("Failed to submit for verification:", error);
       return false;
     }
   }
 
   // Get post analytics
-  static async getPostAnalytics(tweetId: string) {
+  static async getPostAnalytics() {
     try {
       // TODO: Replace with your actual API endpoint
       // const response = await fetch(`${this.BASE_URL}/api/analytics/${tweetId}`);
@@ -78,18 +78,18 @@ export class SonadAPI {
       return {
         totalVotes: 45,
         litPercentage: 78,
-        totalTips: '0.245',
+        totalTips: "245",
         uniqueVoters: 23,
-        engagement: 'high'
+        engagement: "high",
       }; // Mock analytics
     } catch (error) {
-      console.error('Failed to get analytics:', error);
+      console.error("Failed to get analytics:", error);
       return null;
     }
   }
 
   // Report content
-  static async reportPost(tweetId: string, reason: string, reporterAddress: string): Promise<boolean> {
+  static async reportPost(tweetId: string, reason: string): Promise<boolean> {
     try {
       // TODO: Replace with your actual API endpoint
       // const response = await fetch(`${this.BASE_URL}/api/report`, {
@@ -102,7 +102,7 @@ export class SonadAPI {
       console.log(`Reporting tweet ${tweetId} for: ${reason}`);
       return true; // Mock success
     } catch (error) {
-      console.error('Failed to report post:', error);
+      console.error("Failed to report post:", error);
       return false;
     }
   }
@@ -116,14 +116,10 @@ export const formatApiError = (error: any): string => {
   if (error.message) {
     return error.message;
   }
-  return 'An unexpected error occurred';
+  return "An unexpected error occurred";
 };
 
-export const retryApiCall = async <T>(
-  apiCall: () => Promise<T>,
-  maxRetries = 3,
-  delay = 1000
-): Promise<T> => {
+export const retryApiCall = async <T>(apiCall: () => Promise<T>, maxRetries = 3, delay = 1000): Promise<T> => {
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await apiCall();
@@ -132,7 +128,7 @@ export const retryApiCall = async <T>(
       await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
     }
   }
-  throw new Error('Max retries exceeded');
+  throw new Error("Max retries exceeded");
 };
 
 // Cache utilities
@@ -143,7 +139,7 @@ class APICache {
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl: ttlMs
+      ttl: ttlMs,
     });
   }
 
