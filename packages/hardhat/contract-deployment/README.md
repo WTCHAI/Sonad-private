@@ -87,10 +87,17 @@ await sonadContract.tipCreator(postId, {
 });
 ```
 
-## 🔗 Explorer Links
+## 🔗 Verified Contract Links
 
-- [Sonad Contract](https://testnet.monadexplorer.com/address/0x96079982fD20Ed66CDEe1A8009058a50727cEBB3)
-- [MockMonadToken Contract](https://testnet.monadexplorer.com/address/0x95fCB10fcD03208d3aa468db53433cb23167002D)
+- [Sonad Contract (Verified)](https://testnet.monadexplorer.com/contracts/full_match/10143/0x96079982fD20Ed66CDEe1A8009058a50727cEBB3/) ✅
+- [MockMonadToken Contract (Verified)](https://testnet.monadexplorer.com/contracts/full_match/10143/0x95fCB10fcD03208d3aa468db53433cb23167002D/) ✅
+
+## 📄 Contract Source Code
+
+Both contracts are **fully verified** on Monad testnet explorer with source code visible for:
+- Security auditing
+- Function interaction via explorer UI
+- Event monitoring and debugging
 
 ## 👥 Team Integration Notes
 
