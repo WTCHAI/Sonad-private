@@ -6,6 +6,7 @@ import { useSonadContract } from "@/hooks/contract/useSonadContract"
 import { useWalletAccount } from "@/hooks/wallet/useWalletAccount"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Card,
   CardContent,
@@ -13,7 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 
 export default function FeedsPage() {
   const {
@@ -25,7 +25,7 @@ export default function FeedsPage() {
     contractAddress,
   } = useSonadContract()
 
-  const { walletAccount } = useWalletAccount()
+  const walletAccount = useWalletAccount()
 
   const [isLoading, setIsLoading] = useState(false)
   const [txHash, setTxHash] = useState("")
