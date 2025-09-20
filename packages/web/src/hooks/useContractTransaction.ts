@@ -8,7 +8,7 @@ import { useEmbeddedPrivyWallet } from "./wallet/useEmbeddedPrivyWallet"
 export const useContractTransaction = () => {
   const { sendTransaction } = useSendTransaction({
     onSuccess: (txReceipt) => {
-      console.log("Contract transaction confirmed:", txReceipt.transactionHash)
+      // console.log("Contract transaction confirmed:", txReceipt.transactionHash)
       console.log("Transaction receipt:", txReceipt)
     },
     onError: (error) => {

@@ -10,6 +10,7 @@ import { Address, encodeFunctionData } from "viem"
 import { publicClient } from "@/lib/contract"
 
 import { useEmbeddedPrivyWallet } from "./useEmbeddedPrivyWallet"
+import { monadTestnet } from "viem/chains"
 
 interface ContractCallOptions {
   address: Address
@@ -135,20 +136,11 @@ export const useWalletAccount = (): WalletAccountState => {
             data,
           })
 
-          // Gas estimation
-          const gasEstimate = await publicClient.estimateGas({
-            to,
-            value,
-            data,
-            account: embeddedWallet.address as Address,
-          })
-
-          const gasLimit = (gasEstimate * BigInt(120)) / BigInt(100) // 20% buffer
-
           const txResult = await privySendTransaction({
             to,
             value,
             data,
+            chainId: monadTestnet.id,
           })
 
           console.log("Transaction sent:", txResult.hash)
@@ -166,7 +158,6 @@ export const useWalletAccount = (): WalletAccountState => {
         functionName,
         args = [],
         value = 0n,
-        gasBuffer = 20,
       }: ContractCallOptions) => {
         try {
           console.log("Calling contract function:", {
@@ -195,6 +186,7 @@ export const useWalletAccount = (): WalletAccountState => {
             to: contractAddress,
             data,
             value,
+            chainId: monadTestnet.id,
           })
 
           console.log("Contract call successful:", txResult.hash)
@@ -248,7 +240,7 @@ export const useContractInteractionV2 = () => {
     const data = encodeFunctionData({
       abi: options.abi,
       functionName: options.functionName,
-      args: options.args || []
+      args: options.args || [],
     })
 
     console.log("Encoded data:", data)

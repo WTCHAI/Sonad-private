@@ -5,6 +5,7 @@ import {
   PrivyProvider as BasePrivyProvider,
   PrivyClientConfig,
 } from "@privy-io/react-auth"
+import { monadTestnet } from "viem/chains"
 
 import { env } from "@/env.mjs"
 
@@ -19,56 +20,11 @@ export default function PrivyProvider({
       theme: "dark",
       walletChainType: "ethereum-only",
     },
-    defaultChain: {
-      id: 41454,
-      name: "Monad Testnet",
-      network: "monad-testnet",
-      nativeCurrency: {
-        decimals: 18,
-        name: "Monad",
-        symbol: "MON",
-      },
-      rpcUrls: {
-        default: {
-          http: ["https://testnet1.monad.xyz"],
-        },
-        public: {
-          http: ["https://testnet1.monad.xyz"],
-        },
-      },
-      blockExplorers: {
-        default: {
-          name: "Monad Explorer",
-          url: "https://explorer-testnet.monad.xyz",
-        },
-      },
+    defaultChain: monadTestnet,
+    supportedChains: [monadTestnet],
+    _experimentsConfig: {
+      is_preview_mode: true,
     },
-    supportedChains: [
-      {
-        id: 41454,
-        name: "Monad Testnet",
-        network: "monad-testnet",
-        nativeCurrency: {
-          decimals: 18,
-          name: "Monad",
-          symbol: "MON",
-        },
-        rpcUrls: {
-          default: {
-            http: ["https://testnet1.monad.xyz"],
-          },
-          public: {
-            http: ["https://testnet1.monad.xyz"],
-          },
-        },
-        blockExplorers: {
-          default: {
-            name: "Monad Explorer",
-            url: "https://explorer-testnet.monad.xyz",
-          },
-        },
-      },
-    ],
   }
 
   return (
